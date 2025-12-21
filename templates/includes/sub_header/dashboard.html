@@ -1,0 +1,9 @@
+<div class="sub-header dashboard">
+  <nav class="sub-navbar">
+    <ul>
+      <li><a href="{{ url_for('tab_carte') }}" class="{{ 'active' if request.path == url_for('tab_carte') }}">Carte des prélèvements</a></li>
+      <li><a href="{{ url_for('tab_usages') }}" class="{{ 'active' if request.path == url_for('tab_usages') }}">Usages de l'eau</a></li>
+      <li><a href="{{ url_for('tab_evolution') }}" class="{{ 'active' if request.path == url_for('tab_evolution') }}">Évolution temporelle</a></li>
+    </ul>
+  </nav>
+</div>

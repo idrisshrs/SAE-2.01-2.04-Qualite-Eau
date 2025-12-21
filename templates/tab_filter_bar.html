@@ -1,0 +1,52 @@
+<!-- Barre de filtres pour les pages du tableau de bord -->
+<aside>
+    <h2>Filtres</h2>
+    <form method="POST" action="{{ url_for('tab_usages') }}">
+        <div class="form-group">
+            <label for="annee">Année</label>
+            <select class="form-control" id="annee" name="annee">
+                <option value="">Choisir une année</option>
+                {% for annee in annees %}
+                    <option value="{{ annee.annee }}">{{ annee.annee }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="libelle_usages">Usage</label>
+            <select class="form-control" id="libelle_usage" name="libelle_usage">
+                <option value="">Choisir un usage</option>
+                {% for usage in usages %}
+                    <option value="{{ usage.libelle_usage }}">{{ usage.libelle_usage }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="libelle_departement">Département</label>
+            <select class="form-control" id="departement" name="departement">
+                <option value="">Choisir un département</option>
+                {% for departement in departements %}
+                    <option value="{{ departement.departement }}">{{ departement.departement }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="libelle_commune">Commune</label>
+            <select class="form-control" id="commune" name="commune">
+                <option value="">Choisir une commune</option>
+                {% for commune in communes %}
+                    <option value="{{ commune.commune }}">{{ commune.commune }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="libelle_ouvrage">Ouvrage</label>
+            <select class="form-control" id="libelle_ouvrage" name="libelle_ouvrage">
+                <option value="">Choisir un ouvrage</option>
+                {% for ouvrage in ouvrages %}
+                    <option value="{{ ouvrage.libelle_ouvrage }}">{{ ouvrage.libelle_ouvrage }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn">Filtrer</button>
+    </form>
+</aside>

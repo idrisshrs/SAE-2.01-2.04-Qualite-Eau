@@ -1,0 +1,12 @@
+<div class="sub-header dashboard">
+  <nav class="sub-navbar">
+    <ul>
+      <li><a href="{{ url_for('a_propos_manuel') }}" class="{{ 'active' if request.path == url_for('a_propos_manuel') }}">Manuel d'utilisation
+          <i class="material-icons">menu_book</i>
+      </a></li>
+      <li><a href="{{ url_for('a_propos_equipe') }}" class="{{ 'active' if request.path == url_for('a_propos_equipe') }}">Notre équipe projet
+          <i class="material-icons">people</i>
+      </a></li>
+    </ul>
+  </nav>
+</div>

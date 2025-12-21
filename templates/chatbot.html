@@ -1,0 +1,120 @@
+<!-- Icône du chatbot -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prélèvements d'eau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+    <div class="chatbot-icon" id="chatbotIcon">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <!-- Popup du chatbot -->
+    <div class="chatbot-popup" id="chatbotPopup">
+        <div class="chatbot-header">
+            <span>Pluvius</span>
+            <span class="chatbot-close" id="chatbotClose">&times;</span>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                <i class="fas fa-robot bot-icon"></i>
+                <div class="message-content">Bonjour ! Je suis Pluvius, votre assistant sur les prélèvements d'eau. Comment puis-je vous aider ?</div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Posez votre question ici...">
+            <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <!-- Overlay pour le fond assombri -->
+    <div class="overlay" id="chatbotOverlay"></div>
+    
+    <script>
+        // Éléments du DOM
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatbotPopup = document.getElementById('chatbotPopup');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotSend = document.getElementById('chatbotSend');
+        const chatbotOverlay = document.getElementById('chatbotOverlay');
+        
+        // Ouvrir le chatbot
+        chatbotIcon.addEventListener('click', () => {
+            chatbotPopup.style.display = 'flex';
+            chatbotOverlay.style.display = 'block';
+            chatbotInput.focus();
+        });
+        
+        // Fermer le chatbot
+        chatbotClose.addEventListener('click', () => {
+            chatbotPopup.style.display = 'none';
+            chatbotOverlay.style.display = 'none';
+        });
+        
+        // Fermer en cliquant sur l'overlay
+        chatbotOverlay.addEventListener('click', () => {
+            chatbotPopup.style.display = 'none';
+            chatbotOverlay.style.display = 'none';
+        });
+        
+        // Envoyer un message
+        async function sendChatbotMessage() {
+            const message = chatbotInput.value.trim();
+            
+            if (!message) return;
+            
+            // Ajouter le message de l'utilisateur
+            chatbotMessages.innerHTML += `
+                <div class="message user-message">
+                    <i class="fas fa-user user-icon"></i>
+                    <div class="message-content">${message}</div>
+                </div>`;
+            
+            chatbotInput.value = '';
+            
+            // Faire défiler vers le bas
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            try {
+                // Envoyer la requête au serveur (remplacez par votre endpoint réel)
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const data = await response.json();
+                
+                // Ajouter la réponse du bot
+                chatbotMessages.innerHTML += `
+                    <div class="message bot-message">
+                        <i class="fas fa-robot bot-icon"></i>
+                        <div class="message-content">${data.response || "Désolé, je n'ai pas pu traiter votre demande."}</div>
+                    </div>`;
+            } catch (error) {
+                chatbotMessages.innerHTML += `
+                    <div class="message error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div class="message-content">Erreur de connexion avec le serveur</div>
+                    </div>`;
+            }
+            
+            // Faire défiler vers le bas après la réponse
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+        
+        // Envoyer avec le bouton
+        chatbotSend.addEventListener('click', sendChatbotMessage);
+        
+        // Envoyer avec la touche Entrée
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatbotMessage();
+            }
+        });
+    </script>

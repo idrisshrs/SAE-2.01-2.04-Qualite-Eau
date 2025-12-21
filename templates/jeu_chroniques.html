@@ -1,0 +1,139 @@
+
+
+{% extends 'base.html' %}
+
+{% block page_title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block content %}
+<div class="data-page-container">
+
+    <div class="filter-section">
+        <h2 class="section-title">Filtres de recherche</h2>
+        <form method="POST" class="filter-form-grid">
+            {% for field in filter_fields %}
+            <div class="filter-group-data">
+                <label for="{{ field }}">{{ filter_labels.get(field, field.replace('_', ' ').title()) }}:</label>
+                <select id="{{ field }}" name="{{ field }}">
+                    <option value="">Tous</option>
+                    {# Ensure filter_options[field] is a list, and options are strings #}
+                    {% for option in filter_options.get(field, []) %}
+                        <option value="{{ option }}" {% if current_filters.get(field) == option %}selected{% endif %}>
+                            {{ option }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+            <div class="filter-buttons">
+                <button type="submit" class="btn-filter">Appliquer les filtres</button>
+                <a href="{{ request.path }}" class="btn-reset-filter">Réinitialiser les filtres</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-section">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    {# Dynamically generate table headers from the first data item's keys #}
+                    {% if data %}
+                        {% for key in data[0].keys() %}
+                            <th>{{ key.replace('_', ' ').title() }}</th>
+                        {% endfor %}
+                    {% else %}
+                        <th>Aucune donnée disponible</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for row in data %}
+                        <tr>
+                            {% for key, value in row.items() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="{{ data[0].keys()|length if data else 1 }}" class="no-data-message">
+                            Aucune donnée ne correspond aux filtres appliqués.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {# Pagination Controls #}
+    <nav aria-label="Page navigation" class="pagination-container">
+        <ul class="pagination">
+            {# Premier bouton : Aller à la première page #}
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for(request.endpoint, page=1, **current_filters) }}" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {# Bouton Précédent : Reculer d'une page #}
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for(request.endpoint, page=page - 1, **current_filters) }}" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            {# Définition de la plage de pages à afficher (par exemple, 7 pages) #}
+            {% set max_pages_to_show = 7 %}
+            {% set half_range = (max_pages_to_show // 2) %}
+
+            {% set start_loop_page = [1, page - half_range]|max %}
+            {% set end_loop_page = [total_pages, page + half_range]|min %}
+
+            {# Ajuster la plage si nous sommes près du début ou de la fin #}
+            {% if end_loop_page - start_loop_page + 1 < max_pages_to_show %}
+                {% set start_loop_page = [1, end_loop_page - max_pages_to_show + 1]|max %}
+                {% set end_loop_page = [total_pages, start_loop_page + max_pages_to_show - 1]|min %}
+            {% endif %}
+
+            {# Afficher les points de suspension si le début de la boucle n'est pas la première page #}
+            {% if start_loop_page > 1 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+
+            {# Boucle pour afficher les numéros de page dans la plage calculée #}
+            {% for p in range(start_loop_page, end_loop_page + 1) %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for(request.endpoint, page=p, **current_filters) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+
+            {# Afficher les points de suspension si la fin de la boucle n'est pas la dernière page #}
+            {% if end_loop_page < total_pages %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+
+            {# Bouton Suivant : Avancer d'une page #}
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for(request.endpoint, page=page + 1, **current_filters) }}" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            {# Dernier bouton : Aller à la dernière page #}
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for(request.endpoint, page=total_pages, **current_filters) }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pagination-info">
+        Affichage de {{ data|length }} éléments sur {{ total_items }} (Page {{ page }} sur {{ total_pages }})
+    </div>
+
+</div>
+{% endblock %}

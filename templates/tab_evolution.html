@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="evolution-dashboard">
+    <!-- Filtres -->
+    <div class="evolution-sidebar">
+        <div class="filter-card">
+            <div class="filter-header">
+                <h5>Filtres</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+
+                    <!-- Sélecteur ouvrage -->
+                    <div class="filter-group">
+                        <label class="form-label">Ouvrage</label>
+                        <select name="available_ouvrages" class="form-select">
+                            <option value="">Tous les ouvrages</option>
+                            {% for ouvrage in available_ouvrages %}
+                            <option value="{{ ouvrage }}" {% if ouvrage == nom_ouvrage %}selected{% endif %}>{{ ouvrage }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Sélecteur usage -->
+                    <div class="filter-group">
+                        <label class="form-label">Usage</label>
+                        <select name="usage" class="form-select">
+                            <option value="">Tous les usages</option>
+                            {% for u in usages %}
+                            <option value="{{ u }}">{{ u }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-apply">Appliquer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique -->
+    <div class="evolution-graph-container">
+        <div class="evolution-graph-card">
+            <div class="evolution-graph-header">
+                <h5>Évolution temporelle</h5>
+            </div>
+            <div class="evolution-graph">
+                {% if graphique %}
+                <img src="{{ graphique }}" class="img-fluid" alt="Graphique évolution temporelle">
+                {% else %}
+                <div class="alert alert-info">
+                    Sélectionnez au moins un filtre pour afficher le graphique.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

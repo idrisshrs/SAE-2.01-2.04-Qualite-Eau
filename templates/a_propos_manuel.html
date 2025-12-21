@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container page-manuel">
+  <h1 class="main-title">{{ page_sub_title }}</h1>
+
+  <div class="content-wrapper">
+    <div class="text-content">
+      <ul>
+        <li><b>Accueil :</b> Bienvenu sur notre application</li>
+        <li><b>Tableau de bord :</b> Informations relatives aux prélèvements en eau en France
+          <ul>
+            <li><b>Carte :</b> Informations sur les points de prélèvement</li>
+            <li><b>Graphiques :</b> Informations statistiques sur les volumes et les usages de l'eau prélevée</li>
+            <li><b>Évolution :</b> Informations sur l'évolution des habitudes vis-à-vis des prélèvements en eau dans le temps</li>
+          </ul>
+        </li>
+        <li><b>À propos :</b> Informations ci-contre 😉</li>
+      </ul>
+    </div>
+
+    <div class="image-content">
+      <img src="{{ url_for('static', filename='images/illustration.png') }}" alt="Illustration d'une personne utilisant l'application sur un ordinateur">
+    </div>
+  </div>
+</main>
+{% endblock %}

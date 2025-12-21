@@ -1,0 +1,15 @@
+<!-- Structure commune -->
+{% extends 'base.html' %}
+{% block content %}
+  <div class="home">
+    <!-- Logo et nom du site -->
+    <div class="home-logo">
+      <img class="img-home-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo Prélèv’eau" loading="lazy">
+      <span class="txt-logo">Prélèv’eau</span>
+    </div>
+    <!-- Slogan du site -->
+    <h2 class="welcome-h2">Ayez une meilleure compréhension des enjeux liés aux prélèvements en eau</h2>
+    <!-- Bouton pour accéder au tableau de bord -->
+    <a class="btn-dashboard" href="{{ url_for('tab_carte') }}">Tableau de bord</a>
+  </div>
+{% endblock %}

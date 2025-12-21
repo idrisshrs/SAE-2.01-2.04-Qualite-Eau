@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Contact
+{% endblock %}
+
+{% block sub_header_template %}
+  contact.html {# This path is relative to 'includes/sub_header/' in base.html #}
+{% endblock %}
+
+{% block content %}
+<div class="home">
+    <div class="home-logo">
+      <img class="img-home-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo Prélèv’eau">
+      <span class="txt-logo">Prélèv’eau</span>
+    </div>
+    <h2 class="welcome-h2">Ayez une meilleure compréhension des enjeux liés aux prélèvements en eau</h2>
+  <div class="contact-container">
+ 
+     <div class="contact-form-container">
+      <h1>Contactez-nous</h1>
+      <p>Pour toute question ou suggestion, n'hésitez pas à nous contacter.</p>
+      
+      <form action="https://formspree.io/f/myzjpkyo" method="POST">
+          <form action="https://formspree.io/f/myzjpkyo" method="POST" class="contact-form">
+      <div class="form-group">
+        <label for="name">Nom :</label>
+        <input type="text" id="name" name="name" placeholder="Votre nom" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" placeholder="Votre email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="message">Message :</label>
+        <textarea id="message" name="message" placeholder="Votre message" required></textarea>
+      </div>
+      
+      <button type="submit" class="btn-submit">Envoyer</button>
+    </form>
+      </form>
+    </div>
+  </div> <!-- Fermeture de .home -->
+    <p class="form-note">* Le message sera envoyé directement à preleveau@gmail.com</p>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!-- En-tête principal -->
+<header>
+    <!-- Logo et nom du site -->
+    <div class="logo">
+        <img class="img-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Logo Prélèv’eau" loading="lazy">
+        <span>Prélèv’eau</span>
+    </div>
+
+    <!-- Titre de la page -->
+    <h1>{{ page_title }}</h1>
+
+    <!-- Barre de navigation principale -->
+    <div class="menu">
+        <!-- Bouton pour ouvrir la barre de navigation principale -->
+        <button class="menu-btn">
+            <span class="material-icons">menu</span>
+        </button>
+    </div>
+</header>
+<!-- Barre de navigation principale -->
+    <nav class="menu-items">
+        <ul>
+            <li><a href="{{ url_for('accueil') }}" class="active">Accueil</a></li>
+            <li><a href="{{ url_for('tab_carte') }}">Tableau de bord</a></li>
+            <li><a href="{{ url_for('jeu_chroniques') }}">Jeux de données</a></li>
+            <li><a href="{{ url_for('a_propos_manuel') }}">À propos</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+    </nav>

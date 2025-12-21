@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="map-container">
+  <!-- Controls positioned on map -->
+  <div class="map-controls">
+    <button id="map-view" class="active">Carte</button>
+    <button id="heatmap-view">Heatmap</button>
+  </div>
+  
+  <!-- Map fills available space -->
+  <div id="map"></div>
+</div>
+
+<!-- Leaflet CSS/JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize map with France bounds
+  const franceBounds = L.latLngBounds(
+    L.latLng(41.0, -5.0), // SW corner
+    L.latLng(51.5, 10.0)  // NE corner
+  );
+  
+  const map = L.map('map', {
+    maxBounds: franceBounds,
+    maxBoundsViscosity: 1.0,
+    minZoom: 6
+  }).fitBounds(franceBounds);
+
+  // Add base tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    noWrap: true
+  }).addTo(map);
+
+  // Create layer containers
+  const markerLayer = L.layerGroup();
+  let heatmapLayer = null;
+
+  // Debug output
+  console.log("Fetching map data...");
+  
+  fetch('/api/map-data')
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
+    .then(data => {
+      console.log("Received data:", data);
+      
+      // Debug: Check heatmap data structure
+      if (!data.heatmap || !Array.isArray(data.heatmap)) {
+        console.error("Invalid heatmap data structure:", data.heatmap);
+        return;
+      }
+      
+      // Add markers
+      data.prelevements.forEach(point => {
+        L.marker([point.lat, point.lng], {
+          icon: L.icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+          })
+        })
+        .bindPopup(`<b>${point.name}</b><br>${point.code}`)
+        .addTo(markerLayer);
+      });
+
+      // Create heatmap layer
+      console.log("Creating heatmap with points:", data.heatmap.length);
+      heatmapLayer = L.heatLayer(data.heatmap, {
+        radius: 20,
+        blur: 15,
+        maxZoom: 15,
+        gradient: {
+          0.3: 'blue',
+          0.6: 'cyan',
+          0.8: 'lime',
+          1.0: 'red'
+        }
+      });
+
+      // Initial view
+      markerLayer.addTo(map);
+      console.log("Markers added to map");
+
+      // Button controls
+      document.getElementById('map-view').onclick = () => {
+        if (heatmapLayer) map.removeLayer(heatmapLayer);
+        map.addLayer(markerLayer);
+        toggleActiveButton('map-view');
+      };
+
+      document.getElementById('heatmap-view').onclick = () => {
+        if (!heatmapLayer) {
+          console.error("Heatmap layer not initialized!");
+          return;
+        }
+        map.removeLayer(markerLayer);
+        heatmapLayer.addTo(map);
+        toggleActiveButton('heatmap-view');
+      };
+    })
+    .catch(error => {
+      console.error("Error loading map data:", error);
+    });
+
+  function toggleActiveButton(activeId) {
+    ['map-view', 'heatmap-view'].forEach(id => {
+      const btn = document.getElementById(id);
+      btn.classList.toggle('active', id === activeId);
+    });
+  }
+});
+</script>
+{% endblock %}

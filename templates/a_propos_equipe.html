@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="team-container">
+  <!-- Première ligne avec 3 cartes -->
+  <div class="team-grid">
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/5997 - Théo Yuri Castano.jpg') }}" alt="Photo de Théo Yuri Castano">
+        </div>
+        <div class="member-info">
+          <h3>Théo</h3>
+          <p>"L'enfer c'est les autres." - Jean-Paul Sartre</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/6012 - Massinissa Guerrouah.jpg') }}" alt="Photo de Massinissa Guerrouah">
+        </div>
+        <div class="member-info">
+          <h3>Massinissa</h3>
+          <p>"La passion facilite le travail."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/6015 - Clémence Losa.jpg') }}" alt="Photo de Clémence Losa">
+        </div>
+        <div class="member-info">
+          <h3>Clémence</h3>
+          <p>"Dans la vie, rien n'est à craindre, tout est à comprendre." – Marie Curie</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deuxième ligne avec 3 cartes -->
+  <div class="team-grid">
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/6001 - Willy KOY.jpg') }}" alt="Photo de Willy KOY">
+        </div>
+        <div class="member-info">
+          <h3>Willy</h3>
+          <p>"Fait ou ne fait pas il n'y a pas d'essai."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/6000 - Amaury Romeo Delacoux.jpg') }}" alt="Photo de Amaury Romeo Delacoux">
+        </div>
+        <div class="member-info">
+          <h3>Amaury</h3>
+          <p>"Quitters never win and winners never quit."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-member">
+      <div class="member-card-content">
+        <div class="member-icon">
+          <img src="{{ url_for('static', filename='images/6021 - Idriss Haroussi.jpg') }}" alt="Photo de Idriss Haroussi">
+        </div>
+        <div class="member-info">
+          <h3>Idriss</h3>
+          <p>"La meilleure façon de prédire l'avenir, c'est de l'inventer."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

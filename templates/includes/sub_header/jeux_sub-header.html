@@ -1,0 +1,9 @@
+<div class="sub-header dashboard">
+  <nav class="sub-navbar">
+    <ul>
+      <li><a href="{{ url_for('jeu_chroniques') }}" class="{{ 'active' if request.path == url_for('jeu_chroniques') }}">Chroniques</a></li>
+      <li><a href="{{ url_for('jeu_ouvrages') }}" class="{{ 'active' if request.path == url_for('jeu_ouvrages') }}">Ouvrages</a></li>
+      <li><a href="{{ url_for('jeu_points_prelevement') }}" class="{{ 'active' if request.path == url_for('jeu_points_prelevement') }}">Points de prélèvement</a></li>
+    </ul>
+  </nav>
+</div>

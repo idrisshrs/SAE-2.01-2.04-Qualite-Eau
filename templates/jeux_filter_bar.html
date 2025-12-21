@@ -1,0 +1,17 @@
+<!-- Barre de filtres pour le pages des Jeux de données -->
+<aside>
+    <form method="post" class="filter-form">
+        {% for field in filter_fields %}
+        <div class="filter-group">
+            <label for="{{ field }}">{{ filter_labels[field] if filter_labels and field in filter_labels else field|capitalize }}</label>
+            <select name="{{ field }}" id="{{ field }}">
+                <option value="">-- Tous --</option>
+                {% for option in filter_options[field] %}
+                <option value="{{ option }}" {% if request.form[field] == option %}selected{% endif %}>{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endfor %}
+    <button type="submit">Filtrer</button>
+    </form>
+</aside>
