@@ -1,0 +1,14 @@
+<div class="about-sub-nav-container">
+    <div class="about-sub-nav">
+        <a href="{{ url_for('a_propos_manuel') }}" 
+           class="about-sub-link {% if request.path == '/a-propos/manuel-utilisation' %}active{% endif %}">
+            <i class="material-icons">menu_book</i>
+            Manuel
+        </a>
+        <a href="{{ url_for('a_propos_equipe') }}" 
+           class="about-sub-link {% if request.path == '/a-propos/notre-equipe-projet' %}active{% endif %}">
+            <i class="material-icons">groups</i>
+            Équipe
+        </a>
+    </div>
+</div>
