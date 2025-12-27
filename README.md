@@ -10,7 +10,7 @@ Il répond à une problématique d'architecture de données hybride : comment op
 ## Architecture Technique (Hybride)
 L'application respecte strictement le patron de conception **MVC (Modèle-Vue-Contrôleur)** et sépare les données en deux catégories pour optimiser la charge réseau :
 
-1.  **Données Statiques (Stockage Local - PostgreSQL)** :
+1.  **Données Statiques (Stockage Local - PostgreSQL)** : 
     * Les informations invariables (emplacement des stations, coordonnées GPS) sont stockées dans une base de données locale pour un affichage rapide sur la carte.
 2.  **Données Dynamiques (API Hub'eau)** :
     * Les relevés de qualité (température, pH, nitrates) sont récupérés en temps réel via l'API externe uniquement lorsque l'utilisateur sélectionne une station.
