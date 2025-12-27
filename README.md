@@ -26,7 +26,7 @@ L'application respecte strictement le patron de conception **MVC (Modèle-Vue-Co
 * `controller.py` : Le contrôleur principal qui gère les requêtes HTTP et l'orchestration.
 * `/model` : Contient la logique métier et les interactions avec la BDD PostgreSQL (`acces_postgre.py`).
 * `/templates` : Les vues HTML de l'application.
-* `/static` : Fichiers CSS et images (Architecture MVC).
+* `/static` : Fichiers CSS et images (Architecture MVC). 
 * `script_admin` : Scripts d'automatisation pour peupler la base de données locale à partir des référentiels nationaux.
 
 ---
